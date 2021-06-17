@@ -47,22 +47,23 @@ def harvest_get_notifications_recipients(original_action, context, data_dict):
     source = toolkit.get_action('harvest_source_show')({'ignore_auth': True}, {
         'id': source_id
     })
-    recipients = []
+    sysadmin_recipients = []
+    org_admin_recipients = []
 
     # gather sysadmins email recipients
     if notify_sysadmin:
-        recipients = gather_sysadmin_recipients(
+        sysadmin_recipients = gather_sysadmin_recipients(
             context['model'],
-            recipients,
             exclude_username_list
         )
 
     # gather the harvest source's organization admins email recipients
     if notify_organization_admin and source.get('organization'):
-        recipients = gather_org_admin_recipients(
+        org_admin_recipients = gather_org_admin_recipients(
             source.get('organization'),
-            recipients,
             exclude_username_list
         )
+
+    recipients = sysadmin_recipients + org_admin_recipients
 
     return recipients

@@ -84,7 +84,7 @@ setup(
     # pip to create the appropriate form of executable for the target platform.
     entry_points='''
         [ckan.plugins]
-        harvestnotification=ckanext.harvestnotification.plugin:HarvestNotificationPlugin
+        harvest_notification=ckanext.harvestnotification.plugin:HarvestNotificationPlugin
 
         [babel.extractors]
         ckan = ckan.lib.extract:extract_ckan

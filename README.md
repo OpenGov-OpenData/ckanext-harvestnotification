@@ -2,38 +2,33 @@
 
 # ckanext-harvestnotification
 
-**TODO:** Put a description of your extension here:  What does it do? What features does it have? Consider including some screenshots or embedding a video!
-
+This extension provides a plugin that adds configuration to specify the recipients of harvester email notifications.
+Configuration for harvester email notifications from ckanext-harvest must be set to use this feature.
+Users must also have email notifications enabled in their user settings.
 
 ## Requirements
 
-**TODO:** For example, you might want to mention here which versions of CKAN this
-extension works with.
+This extension requires ckanext-harvest (https://github.com/ckan/ckanext-harvest) to be installed along with any of the following configuration options.
 
-If your extension works across different versions you can add the following table:
+If you want to send an email when a Harvest Job fails, you can set the following configuration option in the ini file:
+
+    ckan.harvest.status_mail.errored = True
+
+If you want to send an email when completed Harvest Jobs finish (whether or not it failed), you can set the following configuration option in the ini file:
+
+    ckan.harvest.status_mail.all = True
+
 
 Compatibility with core CKAN versions:
 
 | CKAN version    | Compatible?   |
 | --------------- | ------------- |
-| 2.6 and earlier | not tested    |
-| 2.7             | not tested    |
+| 2.7             | yes           |
 | 2.8             | not tested    |
 | 2.9             | not tested    |
 
-Suggested values:
-
-* "yes"
-* "not tested" - I can't think of a reason why it wouldn't work
-* "not yet" - there is an intention to get it working
-* "no"
-
 
 ## Installation
-
-**TODO:** Add any additional install steps to the list below.
-   For example installing any non-Python dependencies or adding any required
-   config settings.
 
 To install ckanext-harvestnotification:
 
@@ -41,31 +36,38 @@ To install ckanext-harvestnotification:
 
      . /usr/lib/ckan/default/bin/activate
 
-2. Clone the source and install it on the virtualenv
+2. Install ckanext-harvest (https://github.com/ckan/ckanext-harvest#installation)
+
+3. Clone the source and install it on the virtualenv
 
     git clone https://github.com/OpenGov/ckanext-harvestnotification.git
     cd ckanext-harvestnotification
     pip install -e .
 	pip install -r requirements.txt
 
-3. Add `harvestnotification` to the `ckan.plugins` setting in your CKAN
+4. Add `harvest_notification` to the `ckan.plugins` setting in your CKAN
    config file (by default the config file is located at
    `/etc/ckan/default/ckan.ini`).
 
-4. Restart CKAN. For example if you've deployed CKAN with Apache on Ubuntu:
+5. Restart CKAN. For example if you've deployed CKAN with Apache on Ubuntu:
 
      sudo service apache2 reload
 
 
 ## Config settings
 
-None at present
+If you want to send a harvest notifcation email to sysadmin users, you can set the following configuration option in the ini file. If you don't specify this setting, the default will be False.
 
-**TODO:** Document any optional config settings here. For example:
+    ckan.harvestnotification.notify_sysadmin = True
 
-	# The minimum number of hours to wait before re-checking a resource
-	# (optional, default: 24).
-	ckanext.harvestnotification.some_setting = some_default_value
+
+If the Harvest-Source of a Harvest-Job belongs to an organization, the error can also be sent to the organization admins if their email is configured. If you don't specify this setting, the default will be False.
+
+    ckan.harvestnotification.notify_organization_admin = True
+
+The following configuration option can be used to list usernames that should be excluded from harvest emails, even if they are a sysadmin or org admin.
+
+    ckan.harvestnotification.exclude_username_list = ["john_smith"]
 
 
 ## Developer installation
@@ -117,7 +119,3 @@ If ckanext-harvestnotification should be available on PyPI you can follow these 
 
        git tag 0.0.1
        git push --tags
-
-## License
-
-[AGPL](https://www.gnu.org/licenses/agpl-3.0.en.html)
