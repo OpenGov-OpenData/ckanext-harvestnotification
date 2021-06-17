@@ -21,27 +21,17 @@ def harvest_get_notifications_recipients(original_action, context, data_dict):
     """
     check_access('harvest_get_notifications_recipients', context, data_dict)
 
-    notify_sysadmin = config.get(
+    notify_sysadmin = toolkit.asbool(config.get(
         'ckan.harvestnotification.notify_sysadmin', False
-    )
+    ))
 
-    notify_organization_admin = config.get(
+    notify_organization_admin = toolkit.asbool(config.get(
         'ckan.harvestnotification.notify_organization_admin', False
-    )
+    ))
 
-    exclude_username_list = config.get(
+    exclude_username_list = toolkit.aslist(config.get(
         'ckan.harvestnotification.exclude_username_list', []
-    )
-    if exclude_username_list:
-        if isinstance(exclude_username_list, string_types):
-            try:
-                exclude_username_list = json.loads(exclude_username_list)
-            except ValueError:
-                log.debug('exclude_username_list must be in JSON format')
-
-    if not isinstance(exclude_username_list, list):
-        log.debug('exclude_username_list must be a list of usernames')
-        exclude_username_list = []
+    ))
 
     source_id = data_dict['source_id']
     source = toolkit.get_action('harvest_source_show')({'ignore_auth': True}, {

@@ -65,9 +65,9 @@ If the Harvest-Source of a Harvest-Job belongs to an organization, the error can
 
     ckan.harvestnotification.notify_organization_admin = True
 
-The following configuration option can be used to list usernames that should be excluded from harvest emails, even if they are a sysadmin or org admin.
+The following configuration option can be used to set a space-separated list of usernames that should be excluded from harvest emails, even if they are a sysadmin or org admin.
 
-    ckan.harvestnotification.exclude_username_list = ["john_smith"]
+    ckan.harvestnotification.exclude_username_list = john_smith jane_doe
 
 
 ## Developer installation
